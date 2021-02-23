@@ -1,4 +1,4 @@
-package com.andgp.mvvmtesting.ui
+package com.andgp.mvvmtesting.ui.tasks
 
 import android.app.Activity
 import android.os.Bundle

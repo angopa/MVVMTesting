@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'org.jetbrains.dokka'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -28,6 +31,18 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    dokkaHtml.configure {
+        dokkaSourceSets {
+            named("main") {
+                noAndroidSdkLink.set(false)
+            }
+        }
+    }
+    dataBinding {
+        enabled = true
+        enabledForTests = true
+    }
 }
 
 dependencies {
@@ -37,6 +52,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
 
     //Timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
@@ -45,7 +61,28 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
-    testImplementation 'junit:junit:4.+'
+    //LiveData
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
+
+    // Room Database'
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    kapt "androidx.room:room-compiler:$roomVersion"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
 }

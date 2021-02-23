@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.TaskActivity"
+            android:name=".ui.tasks.TaskActivity"
             android:theme="@style/AppTheme.OverlapSystemBar"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
