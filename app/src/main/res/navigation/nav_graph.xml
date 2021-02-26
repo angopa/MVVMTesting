@@ -16,7 +16,7 @@
             app:destination="@id/task_detail_fragment_dest" />
         <action
             android:id="@+id/action_tasksFragment_to_addEditTaskFragment"
-            app:destination="@id/add_edit_fragment_dest" />
+            app:destination="@+id/add_edit_fragment_dest" />
         <argument
             android:name="userMessage"
             android:defaultValue="0"
@@ -25,6 +25,7 @@
 
     <fragment
         android:id="@+id/task_detail_fragment_dest"
+        android:name="com.andgp.mvvmtesting.ui.taskdetail.TaskDetailFragment"
         android:label="Task Details">
         <action
             android:id="@+id/action_taskDetailsFragment_to_addEditTaskFragment"
@@ -34,14 +35,16 @@
             app:destination="@id/tasks_fragment_dest" />
         <argument
             android:name="taskId"
-            app:argType="string"
-            app:nullable="false" />
+            app:argType="string" />
     </fragment>
+
     <fragment android:id="@+id/statistics_fragment_dest">
 
     </fragment>
+
     <fragment
         android:id="@+id/add_edit_fragment_dest"
+        android:name="com.andgp.mvvmtesting.ui.addedittask.AddEditTaskFragment"
         android:label="{title}">
         <action
             android:id="@+id/action_addEditTaskFragment_to_tasksFragment"
@@ -59,4 +62,5 @@
     <argument
         android:name="userMessage"
         android:defaultValue="0" />
+
 </navigation>

@@ -46,5 +46,5 @@
             app:completedTask="@{task.completed}" />
 
     </LinearLayout>
-    
+
 </layout>

@@ -14,7 +14,11 @@
     <string name="task_marked_complete">Task marked complete</string>
     <string name="task_marked_active">Task marked active</string>
     <string name="successfully_saved_task_message">Task saved</string>
-    <string name="successfully_addes_task_message">Task added</string>
-    <string name="duccessfully_deleted_task_message">Task was deleted</string>
+    <string name="successfully_added_task_message">Task added</string>
+    <string name="successfully_deleted_task_message">Task was deleted</string>
     <string name="loading_task_error">Error while loading tasks</string>
+    <string name="empty_task_message">Tasks cannot be empty</string>
+    <string name="hint_title">Title</string>
+    <string name="description_hint">Enter your task here</string>
+    <string name="delete_task_title">Delete task</string>
 </resources>

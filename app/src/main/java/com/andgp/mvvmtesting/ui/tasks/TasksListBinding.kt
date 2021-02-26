@@ -9,7 +9,7 @@ import com.andgp.mvvmtesting.data.source.model.Task
 /**
  *  Created by Andres Gonzalez on 02/18/2021.
  *  Copyright (c) 2021 City Electric Supply. All rights reserved.
- *  
+ *
  *  [BindingAdpater]s for the [Task]s list
  */
 @BindingAdapter("app:items")

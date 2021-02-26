@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.andgp.mvvmtesting.ui.statistics.StatisticsViewModel" />
+    </data>
+
+    <com.andgp.mvvmtesting.ui.views.ScrollChildSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:onRefreshListener="@{}"
+        app:refreshing="@{}">
+
+
+    </com.andgp.mvvmtesting.ui.views.ScrollChildSwipeRefreshLayout>
+
+</layout>

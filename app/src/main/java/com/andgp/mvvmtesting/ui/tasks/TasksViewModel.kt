@@ -165,8 +165,8 @@ class TasksViewModel(application: Application) : AndroidViewModel(application) {
         if (resultMessageShown) return
         when (result) {
             EDIT_RESULT_OK -> shownSnackbarMessage(R.string.successfully_saved_task_message)
-            ADD_EDIT_RESULT_OK -> shownSnackbarMessage(R.string.successfully_addes_task_message)
-            DELETE_RESULT_OK -> shownSnackbarMessage(R.string.duccessfully_deleted_task_message)
+            ADD_EDIT_RESULT_OK -> shownSnackbarMessage(R.string.successfully_added_task_message)
+            DELETE_RESULT_OK -> shownSnackbarMessage(R.string.successfully_deleted_task_message)
         }
         resultMessageShown = true
     }
