@@ -21,4 +21,10 @@
     <string name="hint_title">Title</string>
     <string name="description_hint">Enter your task here</string>
     <string name="delete_task_title">Delete task</string>
+
+    <string name="statistics_active_tasks">Active tasks: %.1f%%</string>
+    <string name="statistics_completed_tasks">Completed tasks: %.1f%%</string>
+    <string name="statistics_error">Error loading statistics.</string>
+    <string name="no_data">No data</string>
+    <string name="loading">LOADING</string>
 </resources>
