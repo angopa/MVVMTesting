@@ -1,6 +1,5 @@
 package com.andgp.mvvmtesting
 
-import android.app.Application
 import timber.log.Timber
 
 /**
@@ -9,9 +8,13 @@ import timber.log.Timber
  *
  * Also, sets up Timber in the DEBUG BuildConfig. Read Timber's documentation for production setups.
  */
-class MVVMTestingApplication : Application() {
+class MVVMTestingApplication : BaseApplication() {
+
+    val tasksRepository
+        get() = ServiceLocator.provideTaskRepository(this)
+
     override fun onCreate() {
         super.onCreate()
-        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+        if (isDebug) Timber.plant(Timber.DebugTree())
     }
 }

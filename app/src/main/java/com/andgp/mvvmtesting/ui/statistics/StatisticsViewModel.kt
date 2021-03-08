@@ -1,10 +1,9 @@
 package com.andgp.mvvmtesting.ui.statistics
 
-import android.app.Application
 import androidx.lifecycle.*
 import com.andgp.mvvmtesting.data.Result
 import com.andgp.mvvmtesting.data.Result.Success
-import com.andgp.mvvmtesting.data.source.DefaultTasksRepository
+import com.andgp.mvvmtesting.data.source.TasksRepository
 import com.andgp.mvvmtesting.data.source.model.Task
 import kotlinx.coroutines.launch
 
@@ -12,9 +11,7 @@ import kotlinx.coroutines.launch
  *  Created by Andres Gonzalez on 2/26/21.
  *  Copyright (c) 2020 City Electric Supply. All rights reserved.
  */
-class StatisticsViewModel(application: Application) : AndroidViewModel(application) {
-    private val tasksRepository = DefaultTasksRepository.getRepository(application)
-
+class StatisticsViewModel(private val tasksRepository: TasksRepository) : ViewModel() {
     private val _dataLoading = MutableLiveData<Boolean>(false)
     val dataLoading = _dataLoading
 

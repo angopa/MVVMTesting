@@ -4,9 +4,14 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.andgp.mvvmtesting.MVVMTestingApplication
 import com.andgp.mvvmtesting.R
+import com.andgp.mvvmtesting.data.source.DefaultTasksRepository
+import com.andgp.mvvmtesting.data.source.TasksRepository
 import com.andgp.mvvmtesting.databinding.FragmentTaskDetailBinding
 import com.andgp.mvvmtesting.ui.tasks.DELETE_RESULT_OK
 import com.andgp.mvvmtesting.util.Event
@@ -23,7 +28,9 @@ class TaskDetailFragment : Fragment() {
 
     private val args: TaskDetailFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<TaskDetailViewModel>()
+    private val viewModel by viewModels<TaskDetailViewModel> {
+        TaskDetailViewModelFactory((requireContext().applicationContext as MVVMTestingApplication).tasksRepository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +53,7 @@ class TaskDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupFab()
-        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
+        view.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
         setupNavigation()
         this.setupRefreshLayout(viewDataBinding.refreshLayout)
     }

@@ -1,11 +1,10 @@
 package com.andgp.mvvmtesting.ui.taskdetail
 
-import android.app.Application
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import com.andgp.mvvmtesting.R
 import com.andgp.mvvmtesting.data.Result
-import com.andgp.mvvmtesting.data.source.DefaultTasksRepository
+import com.andgp.mvvmtesting.data.source.TasksRepository
 import com.andgp.mvvmtesting.data.source.model.Task
 import com.andgp.mvvmtesting.util.Event
 import kotlinx.coroutines.launch
@@ -14,9 +13,7 @@ import kotlinx.coroutines.launch
  *  Created by Andres Gonzalez on 2/25/21.
  *  Copyright (c) 2020 City Electric Supply. All rights reserved.
  */
-class TaskDetailViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val tasksRepository = DefaultTasksRepository.getRepository(application)
+class TaskDetailViewModel(private val tasksRepository: TasksRepository) : ViewModel() {
 
     private val _taskId = MutableLiveData<String>()
 
@@ -100,4 +97,12 @@ class TaskDetailViewModel(application: Application) : AndroidViewModel(applicati
     private fun shownSnackbarMessage(@StringRes message: Int) {
         _snackbarText.value = Event(message)
     }
+}
+
+@Suppress("UNCHECKED_CAST")
+class TaskDetailViewModelFactory(
+    private val tasksRepository: TasksRepository
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+        TaskDetailViewModel(tasksRepository) as T
 }

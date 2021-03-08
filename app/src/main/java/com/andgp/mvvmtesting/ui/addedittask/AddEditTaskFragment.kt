@@ -6,10 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.andgp.mvvmtesting.MVVMTestingApplication
 import com.andgp.mvvmtesting.R
+import com.andgp.mvvmtesting.data.source.TasksRepository
 import com.andgp.mvvmtesting.databinding.FragmentAddEditTaskBinding
 import com.andgp.mvvmtesting.ui.tasks.ADD_EDIT_RESULT_OK
 import com.andgp.mvvmtesting.util.Event
@@ -26,7 +30,9 @@ class AddEditTaskFragment : Fragment() {
 
     private val args: AddEditTaskFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<AddEditTaskViewModel>()
+    private val viewModel by viewModels<AddEditTaskViewModel> {
+        AddEditViewModelFactory((requireActivity().application as MVVMTestingApplication).tasksRepository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +67,4 @@ class AddEditTaskFragment : Fragment() {
     private fun setupSnackbar() {
         view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
-
-
 }

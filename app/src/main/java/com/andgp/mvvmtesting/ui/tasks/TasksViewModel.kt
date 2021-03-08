@@ -1,13 +1,12 @@
 package com.andgp.mvvmtesting.ui.tasks
 
-import android.app.Application
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import com.andgp.mvvmtesting.R
 import com.andgp.mvvmtesting.data.Result
 import com.andgp.mvvmtesting.data.Result.Success
-import com.andgp.mvvmtesting.data.source.DefaultTasksRepository
+import com.andgp.mvvmtesting.data.source.TasksRepository
 import com.andgp.mvvmtesting.data.source.model.Task
 import com.andgp.mvvmtesting.ui.tasks.TasksFilterType.*
 import com.andgp.mvvmtesting.util.Event
@@ -19,9 +18,7 @@ import kotlinx.coroutines.launch
  *
  *  ViewModel for the task list screen.
  */
-class TasksViewModel(application: Application) : AndroidViewModel(application) {
-    private val tasksRepository = DefaultTasksRepository.getRepository(application)
-
+class TasksViewModel(private val tasksRepository: TasksRepository) : ViewModel() {
     private val _forceUpdate = MutableLiveData(false)
 
     private val _items: LiveData<List<Task>> = _forceUpdate.switchMap { forceUpdate ->
@@ -217,5 +214,13 @@ class TasksViewModel(application: Application) : AndroidViewModel(application) {
     fun refresh() {
         _forceUpdate.value = true
     }
+}
+
+@Suppress("UNCHECKED_CAST")
+class TasksViewModelFactory(
+    private val tasksRepository: TasksRepository
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+        TasksViewModel(tasksRepository) as T
 
 }

@@ -7,7 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.andgp.mvvmtesting.MVVMTestingApplication
 import com.andgp.mvvmtesting.R
+import com.andgp.mvvmtesting.data.source.TasksRepository
 import com.andgp.mvvmtesting.databinding.FragmentStatisticsBinding
 import com.andgp.mvvmtesting.util.setupRefreshLayout
 
@@ -18,7 +22,11 @@ import com.andgp.mvvmtesting.util.setupRefreshLayout
 class StatisticsFragment : Fragment() {
     private lateinit var viewDataBinding: FragmentStatisticsBinding
 
-    private val viewModel by viewModels<StatisticsViewModel>()
+    private val viewModel by viewModels<StatisticsViewModel> {
+        StatisticsViewModelFactory(
+            (requireContext().applicationContext as MVVMTestingApplication).tasksRepository
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,4 +51,13 @@ class StatisticsFragment : Fragment() {
         this.setupRefreshLayout(viewDataBinding.refreshLayout)
 
     }
+}
+
+@Suppress("UNCHECKED_CAST")
+class StatisticsViewModelFactory(
+    private val repository: TasksRepository
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+        StatisticsViewModel(repository) as T
+
 }

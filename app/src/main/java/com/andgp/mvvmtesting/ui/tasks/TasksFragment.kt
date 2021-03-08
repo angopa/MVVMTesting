@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.andgp.mvvmtesting.MVVMTestingApplication
 import com.andgp.mvvmtesting.R
 import com.andgp.mvvmtesting.databinding.FragmentTasksBinding
 import com.andgp.mvvmtesting.util.Event.*
@@ -24,7 +25,12 @@ import timber.log.Timber
  *
  */
 class TasksFragment : Fragment() {
-    private val viewModel by viewModels<TasksViewModel>()
+    private val tasksViewModel by viewModels<TasksViewModel> {
+        TasksViewModelFactory(
+            (requireContext().applicationContext as MVVMTestingApplication).tasksRepository
+        )
+    }
+
     private val args: TasksFragmentArgs by navArgs()
 
     private lateinit var viewDataBinding: FragmentTasksBinding
@@ -37,7 +43,7 @@ class TasksFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewDataBinding = FragmentTasksBinding.inflate(inflater, container, false).apply {
-            viewmodel = viewModel
+            viewmodel = tasksViewModel
         }
         setHasOptionsMenu(true)
         return viewDataBinding.root
@@ -50,7 +56,7 @@ class TasksFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
             R.id.menu_clear -> {
-                viewModel.clearCompletedTasks()
+                tasksViewModel.clearCompletedTasks()
                 true
             }
             R.id.menu_filter -> {
@@ -58,7 +64,7 @@ class TasksFragment : Fragment() {
                 true
             }
             R.id.menu_refresh -> {
-                viewModel.loadTasks(true)
+                tasksViewModel.loadTasks(true)
                 true
             }
             else -> false
@@ -77,18 +83,18 @@ class TasksFragment : Fragment() {
     }
 
     private fun setupNavigation() {
-        viewModel.openTaskEvent.observe(this.viewLifecycleOwner, EventObserver {
+        tasksViewModel.openTaskEvent.observe(this.viewLifecycleOwner, EventObserver {
             openTaskDetails(it)
         })
-        viewModel.newTaskEvent.observe(this.viewLifecycleOwner, EventObserver {
+        tasksViewModel.newTaskEvent.observe(this.viewLifecycleOwner, EventObserver {
             navigateToAddNewTask()
         })
     }
 
     private fun setupSnackbar() {
-        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
+        view?.setupSnackbar(this, tasksViewModel.snackbarText, Snackbar.LENGTH_SHORT)
         arguments?.let {
-            viewModel.showEditResultMessage(args.userMessage)
+            tasksViewModel.showEditResultMessage(args.userMessage)
         }
     }
 
@@ -98,7 +104,7 @@ class TasksFragment : Fragment() {
             menuInflater.inflate(R.menu.filter_tasks_menu, menu)
 
             setOnMenuItemClickListener {
-                viewModel.setFiltering(
+                tasksViewModel.setFiltering(
                     when (it.itemId) {
                         R.id.active -> TasksFilterType.ACTIVE_TASKS
                         R.id.completed -> TasksFilterType.COMPLETED_TASK

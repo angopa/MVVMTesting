@@ -1,12 +1,12 @@
 package com.andgp.mvvmtesting.ui.addedittask
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.andgp.mvvmtesting.R
 import com.andgp.mvvmtesting.data.Result
-import com.andgp.mvvmtesting.data.source.DefaultTasksRepository
+import com.andgp.mvvmtesting.data.source.TasksRepository
 import com.andgp.mvvmtesting.data.source.model.Task
 import com.andgp.mvvmtesting.util.Event
 import kotlinx.coroutines.launch
@@ -15,9 +15,7 @@ import kotlinx.coroutines.launch
  *  Created by Andres Gonzalez on 02/23/2021.
  *  Copyright (c) 2021 City Electric Supply. All rights reserved.
  */
-class AddEditTaskViewModel(application: Application) : AndroidViewModel(application) {
-    private val tasksRepository = DefaultTasksRepository.getRepository(application)
-
+class AddEditTaskViewModel(private val tasksRepository: TasksRepository) : ViewModel() {
     //Two-way databinding, exposing MutableLiveData
     val title = MutableLiveData<String>()
 
@@ -121,4 +119,13 @@ class AddEditTaskViewModel(application: Application) : AndroidViewModel(applicat
             _taskUpdateEvent.value = Event(Unit)
         }
     }
+}
+
+@Suppress("UNCHECKED_CAST")
+class AddEditViewModelFactory(
+    private val repository: TasksRepository
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+        AddEditTaskViewModel(repository) as T
+
 }
