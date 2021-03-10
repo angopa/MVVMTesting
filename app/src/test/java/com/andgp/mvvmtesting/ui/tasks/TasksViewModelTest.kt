@@ -1,5 +1,6 @@
 package com.andgp.mvvmtesting.ui.tasks
 
+import android.os.Build
 import com.andgp.mvvmtesting.data.source.FakeTestRepository
 import com.andgp.mvvmtesting.data.source.model.Task
 import org.junit.Before
@@ -9,7 +10,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(manifest = Config.NONE)
+@Config(sdk = [Build.VERSION_CODES.P], manifest = Config.NONE)
 class TasksViewModelTest {
 
     //SUT
