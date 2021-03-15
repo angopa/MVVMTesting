@@ -15,16 +15,24 @@ class FakeTestRepository : TasksRepository {
 
     private val observableTasks = MutableLiveData<Result<List<Task>>>()
 
-    override suspend fun getTasks(forceUpdate: Boolean): Result<List<Task>> {
-        return Result.Success(taskServiceData.values.toList())
+    private var shouldReturnError = false
+
+    fun setReturnError(value: Boolean) {
+        this.shouldReturnError = value
     }
 
     override suspend fun refreshTasks() {
         observableTasks.value = getTasks(true)
     }
 
+    override suspend fun getTasks(forceUpdate: Boolean): Result<List<Task>> {
+        if (shouldReturnError) {
+            return Result.Error(Exception("Test exception"))
+        }
+        return Result.Success(taskServiceData.values.toList())
+    }
+
     override fun observeTasks(): LiveData<Result<List<Task>>> {
-        runBlocking { refreshTasks() }
         return observableTasks
     }
 
@@ -37,7 +45,13 @@ class FakeTestRepository : TasksRepository {
     }
 
     override suspend fun getTask(taskId: String, forceUpdate: Boolean): Result<Task> {
-        TODO("Not yet implemented")
+        if (shouldReturnError) {
+            return Result.Error(Exception("Test exception"))
+        }
+        taskServiceData[taskId]?.let {
+            return Result.Success(it)
+        }
+        return Result.Error(Exception("Could not find task"))
     }
 
     override suspend fun saveTask(task: Task) {
@@ -45,7 +59,8 @@ class FakeTestRepository : TasksRepository {
     }
 
     override suspend fun completeTask(task: Task) {
-        TODO("Not yet implemented")
+        taskServiceData[task.id]?.isCompleted = true
+        runBlocking { refreshTasks() }
     }
 
     override suspend fun completeTask(taskId: String) {

@@ -1,5 +1,6 @@
 package com.andgp.mvvmtesting.data.source
 
+import com.andgp.mvvmtesting.MainCoroutineRule
 import com.andgp.mvvmtesting.data.Result
 import com.andgp.mvvmtesting.data.source.model.Task
 import kotlinx.coroutines.Dispatchers
@@ -8,6 +9,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -26,6 +28,10 @@ class DefaultTasksRepositoryTest {
     private lateinit var taskRemoteDataSource: FakeDataSource
     private lateinit var taskLocalDataSource: FakeDataSource
 
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    private val mainCoroutineRule = MainCoroutineRule()
+
     //Class under Tests
     private lateinit var tasksRepository: DefaultTasksRepository
 
@@ -40,13 +46,13 @@ class DefaultTasksRepositoryTest {
             //  so we will keep this as Unconfined for now.
             taskRemoteDataSource,
             taskLocalDataSource,
-            Dispatchers.Unconfined
+            Dispatchers.Main
         )
     }
 
     @ExperimentalCoroutinesApi
     @Test
-    fun getTasks_requestAllTasksFromRemoteDataSource_success() = runBlockingTest {
+    fun getTasks_requestAllTasksFromRemoteDataSource_success() = mainCoroutineRule.runBlockingTest {
         //When task are requested from the tasks repository
         val result = tasksRepository.getTasks(true) as Result.Success
 

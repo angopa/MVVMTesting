@@ -5,6 +5,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
 import com.andgp.mvvmtesting.R
 import com.andgp.mvvmtesting.ServiceLocator
 import com.andgp.mvvmtesting.data.source.FakeAndroidTestRepository
@@ -18,7 +19,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
+@MediumTest
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class TaskDetailFragmentTest {

@@ -43,6 +43,11 @@ android {
     buildFeatures {
         dataBinding = true
     }
+
+    testOptions.unitTests {
+        includeAndroidResources = true
+        returnDefaultValues = true
+    }
 }
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
@@ -74,6 +79,8 @@ dependencies {
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
 
     // Dependencies por local unit test
     testImplementation "junit:junit:$junitVersion"

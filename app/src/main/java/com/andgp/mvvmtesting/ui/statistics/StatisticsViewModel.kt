@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
  *  Copyright (c) 2020 City Electric Supply. All rights reserved.
  */
 class StatisticsViewModel(private val tasksRepository: TasksRepository) : ViewModel() {
-    private val _dataLoading = MutableLiveData<Boolean>(false)
+    private val _dataLoading = MutableLiveData(false)
     val dataLoading = _dataLoading
 
     private val tasks: LiveData<Result<List<Task>>> = tasksRepository.observeTasks()
@@ -43,5 +43,12 @@ class StatisticsViewModel(private val tasksRepository: TasksRepository) : ViewMo
             _dataLoading.value = false
         }
     }
+}
 
+@Suppress("UNCHECKED_CAST")
+class StatisticsViewModelFactory(
+    private val repository: TasksRepository
+) : ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+        StatisticsViewModel(repository) as T
 }
